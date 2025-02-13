@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\RouteAttributes\Attributes\Route;
 
@@ -18,8 +19,20 @@ class LoginController extends Controller
     #[Route("POST", "login", "authenticate")]
     public function login(LoginRequest $request)
     {
-        if (!Auth::attempt($request->except(["_token"]))) {
-            return "Las credenciales no coinciden con nuestros registros.";
+        $user = User::findUser($request->email)->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'La cuenta esta inactiva o el correo no esta registrado.',
+            ])->onlyInput('email');
+        }
+
+        $credentials = $request->only(["email", "password"]);
+
+        if (!Auth::attempt($credentials)) {
+            return back()->withErrors([
+                'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+            ])->onlyInput('email');
         }
 
         $request->session()->regenerate();

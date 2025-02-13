@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Traits\HasActiveColumn;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +13,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRolesAndAbilities;
+    use HasFactory, Notifiable, HasRolesAndAbilities, HasActiveColumn;
 
     /**
      * The attributes that are mass assignable.
@@ -20,6 +22,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
+        'second_surname',
+        'active',
         'email',
         'password',
     ];
@@ -45,5 +50,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Scopes
+    public function scopeFindUser($query, string $email)
+    {
+        return $query->whereEmail($email)->active();
     }
 }
