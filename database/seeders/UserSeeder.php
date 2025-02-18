@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
         $users = collect([
             [
                 "email" => "admin@test.com.mx",
-                "name" => "admin",
-                "surname" => "admin",
-                "second_surname" => "admin",
+                "name" => "Manuel",
+                "surname" => "Barreras",
+                "second_surname" => "Soto",
                 "password" => Hash::make("laravel_123"),
                 "role" => "admin"
             ],

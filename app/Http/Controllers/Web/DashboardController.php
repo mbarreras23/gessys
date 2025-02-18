@@ -7,7 +7,7 @@ use Spatie\RouteAttributes\Attributes\Route;
 
 class DashboardController extends Controller
 {
-    #[Route("GET", "/")]
+    #[Route("GET", "/", "welcome")]
     public function welcome()
     {
         return view("welcome");

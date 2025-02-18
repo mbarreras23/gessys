@@ -1,11 +1,11 @@
 @extends('layouts.app')
-@section('title', 'Catalogo de Proyectos')
+@section('title', 'Proyectos')
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <h2>Proyectos</h2>
-        </div>
-    </div>
+    <x-page-title>Proyectos</x-page-title>
+    <x-breadcrumb :links="[
+        ['title' => 'Inicio', 'url' => route('welcome'), 'active' => false],
+        ['title' => 'Proyectos', 'url' => route('projects.index'), 'active' => true],
+    ]" />
     <div class="container">
         @include('alerts.alerts')
     </div>
@@ -53,11 +53,11 @@
                             </span>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                            <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal"
                                 data-bs-target="#update_project_{{ $project->id }}">
                                 <i class="fa-solid fa fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                            <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
                                 data-bs-target="#projects_destroy_{{ $project->id }}">
                                 <i class="fa-solid fa fa-trash"></i>
                             </button>
@@ -67,11 +67,15 @@
                                 'title' => '¿Desea eliminar el siguiente proyecto?',
                                 'message' => $project->name,
                             ])
+                            <a target="_blank" href="{{ route('projects.export_pdf', $project->id) }}"
+                                class="btn btn-sm btn-outline-secondary">
+                                <i class="fa fa-file-pdf"></i>
+                            </a>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td class="text-center" colspan="8">¡No hay coincidencias!</td>
+                        <td class="text-center" colspan="9">¡No hay coincidencias!</td>
                     </tr>
                 @endforelse
             </tbody>

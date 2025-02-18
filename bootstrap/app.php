@@ -16,7 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Illuminate\Cookie\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class
+            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
         ]);
 
         $middleware->alias([

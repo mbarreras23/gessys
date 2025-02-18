@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Etapas del proyecto')
 @section('content')
-    <div class="container">
-        <div class="d-flex justify-content-center">
-            <h2>{{ $project->name }}</h2>
-        </div>
-    </div>
+    <x-page-title>Fases - {{ $project->name }}</x-page-title>
+    <x-breadcrumb :links="[
+        ['title' => 'Inicio', 'url' => route('welcome'), 'active' => false],
+        ['title' => 'Proyectos', 'url' => route('projects.index'), 'active' => false],
+        ['title' => $project->name, 'url' => '', 'active' => true],
+    ]" />
     <div class="container">
         @include('alerts.alerts')
     </div>

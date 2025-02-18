@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+use PDF;
 
 class Project extends Model
 {
@@ -69,8 +71,20 @@ class Project extends Model
     }
 
     // Functions
+
     public function attachConcept(int $concept_id, float $price = 0)
     {
         $this->concepts()->attach([$concept_id => ["price" => $price]]);
+    }
+
+    public function getPdf(string $export_type = "stream")
+    {
+        $pdf = PDF::loadView("pdfs.project", [
+            "project" => $this->load("concepts")
+        ]);
+
+        return match ($export_type) {
+            default => $pdf->stream(Str::slug($this->name) . ".pdf"),
+        };
     }
 }

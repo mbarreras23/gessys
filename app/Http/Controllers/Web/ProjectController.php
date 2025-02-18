@@ -51,7 +51,7 @@ class ProjectController extends Controller
 
         DB::commit();
 
-        return back()->with("alert-success", "Nuevo pryecto creado: " . $project->name);
+        return redirect()->route("projects.index")->with("alert-success", "Nuevo pryecto creado: " . $project->name);
     }
 
     /**
@@ -103,5 +103,11 @@ class ProjectController extends Controller
         $stage = $project->stages()->create($request->validated());
 
         return back()->with("alert-success", "Etapa creada: $stage->name");
+    }
+
+    #[Route("GET", "{project}/export-pdf", "projects.export_pdf")]
+    public function exportPdf(Project $project)
+    {
+        return $project->getPdf();
     }
 }

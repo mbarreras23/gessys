@@ -21,8 +21,7 @@ class BouncerSeeder extends Seeder
     private function createRoles()
     {
         $roles = collect([
-            ["name" => "admin"],
-            ["name" => "root"]
+            ["name" => "admin"]
         ]);
 
         $roles->each(fn($role) => Bouncer::role()->updateOrCreate([
